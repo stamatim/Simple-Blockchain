@@ -33,13 +33,13 @@ def mine():
     prev_hash= blockchain.hash(last_block)
     block = blockchain.new_block(proof, prev_hash)
 
-    response = [
-        'message'="New Block Forged",
-        'index'=block['index'],
-        'transactions'=block['transactions'],
-        'proof'=block['proof'],
-        'prev_hash'=block['prev_hash']
-    ]
+    response = {
+        'message': "New Block Forged",
+        'index': block['index'],
+        'transactions': block['transactions'],
+        'proof': block['proof'],
+        'prev_hash': block['prev_hash']
+    }
 
     return jsonify(response), 200
 
@@ -56,19 +56,19 @@ def new_transaction():
     # Create a new transaction
     index = blockchain.new_transaction(values['sender'], values['receiver'], values['amount'])
 
-    response = [
-        'message'=f'Transaction will be added to the Block {index}'
-    ]
+    response = {
+        'message': f'Transaction will be added to the Block {index}'
+    }
 
     return jsonify(response), 201
 
 
 @app.route('/chain', methods=["GET"])
 def show_chain():
-    response = [
-        'chain'=blockchain.chain,
-        'length'=len(blockchain.chain)
-    ]
+    response = {
+        'chain': blockchain.chain,
+        'length': len(blockchain.chain)
+    }
 
     return jsonify(response), 200
 
@@ -84,10 +84,10 @@ def register_nodes():
     for node in nodes:
         blockchain.register_node(node)
 
-    response = [
-        'message'='New nodes have been added',
-        'total_nodes'=list(blockchain.nodes)
-    ]
+    response = {
+        'message': 'New nodes have been added',
+        'total_nodes': list(blockchain.nodes)
+    }
 
     return jsonify(response), 201
 
@@ -97,15 +97,15 @@ def consensus():
     replaced = blockchain.resolve_conflicts()
 
     if replaced:
-        response = [
-            'message'='The current chain has been replaced',
-            'new_chain'=blockchain.chain
-        ]
+        response = {
+            'message': 'The current chain has been replaced',
+            'new_chain': blockchain.chain
+        }
     else:
-        response = [
-            'message'='The current chain is authoritative',
-            'chain'=blockchain.chain
-        ]
+        response = {
+            'message': 'The current chain is authoritative',
+            'chain': blockchain.chain
+        }
 
     return jsonify(response), 200
 
