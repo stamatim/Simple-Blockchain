@@ -136,7 +136,7 @@ class Blockchain(object):
             print("\n-------------\n")
 
             # Check that the hash of the block is correct
-            if block['previous_hash'] != self.hash(last_block):
+            if block['prev_hash'] != self.hash(last_block):
                 return False
 
             # Check that the Proof of Work is correct
